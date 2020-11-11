@@ -5,7 +5,9 @@ const ws = require('ws');
 const PORT = process.env.PORT || 9000;
 
 //body parser middleware
-app.use(express.json())
+app.use(express.json());
+
+app.use(express.static(__dirname + '/public'))
 
 //route handler will send index.html
 app.get('/', (req, res, next) => {
@@ -14,7 +16,10 @@ app.get('/', (req, res, next) => {
 
 //route handler for post
 app.post('/api/chat', (req, res, next) => {
+ 
   try{
+    
+    
     const mess = { ...req.body, id: Math.round(Math.random() * 1000) };
     res.send(mess);
   } catch(err) {

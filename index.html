@@ -1,39 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>
-      Chat App
-    </title>
-    <style>
-      h1{
-        color: dodgerblue;
-      }
-      body{
-        background-color: whitesmoke;
-        padding: 0;
-      }
-      ul{
-        width: 100%;
-        height: 80vh;
-        padding:0%
-      }
-      li{
-        list-style: none;
-        width: 100%;
-        padding: .25rem;
-      }
-      form input{
-        width: 100%
-      }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>Chat App</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"
+      integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ=="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <div class='heading'>
     <h1>Chat Room</h1>
-    <ul>
-
-    </ul>
+  </div>
+    <ul></ul>
     <form>
       <input />
     </form>
@@ -42,49 +23,39 @@
       const form = document.querySelector('form');
       const input = document.querySelector('input');
       //replace http protocol with websocket protocol
-      const socket = new WebSocket( window.location.origin.replace( 'http', 'ws') );
-
-
+      const socket = new WebSocket(
+        window.location.origin.replace('http', 'ws')
+      );
 
       /////////////////attach an event listener of sumbmit type to form
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const mess = { text: input.value};
+        const mess = { text: input.value };
         //this step requires json body parsing middleware in server file
-        const { data } = await axios.post('/api/chat', mess )
+        const { data } = await axios.post('/api/chat', mess);
         // console.log('data ', data) //this shows the return value of line 13 with and id property and value
         // console.log( mess ) this returns the value of line 30
         // data will not appear unless you JSON.stringify
-        socket.send( JSON.stringify(data)) //socket referes to line 23
+        socket.send(JSON.stringify(data)); //socket referes to line 23
+        input.value = '';
       });
-     
+
       ////////////////attach event listener of message type to socket which will receive messages from server
-      socket.addEventListener('message', e => {
-        try{
+      socket.addEventListener('message', (e) => {
+        try {
           const m = JSON.parse(e.data);
           //this console.log shows up in client
-          console.log('in index.html listening for messages on socket', m )
-          ul.innerHTML += `<li>${m.text}</li>`
-
-
-        } catch(err){
-          console.log(err)
+          console.log('in index.html listening for messages on socket', m);
+          ul.innerHTML += `<li>${m.text}</li>`;
+        } catch (err) {
+          console.log(err);
         }
 
         //console.log('e in .html', e.data)
-      })
-
+      });
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
@@ -184,5 +155,3 @@
     
   </body>
  </html>  -->
-
- 

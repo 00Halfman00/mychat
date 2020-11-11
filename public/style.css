@@ -1,0 +1,38 @@
+h1 {
+  color: dodgerblue;
+}
+.heading {
+  text-align: center;
+  border-top: 0.25rem solid dodgerblue;
+  border-bottom: 0.25rem solid dodgerblue;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+body {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  background-color:whitesmoke;
+  padding: 0;
+  color: royalblue;
+}
+ul {
+  width: 100%;
+
+  padding-left: 0.5rem;
+}
+li {
+  list-style: none;
+  width: 100%;
+  padding: 0.25rem;
+}
+
+form {
+  background: #000;
+  position: fixed;
+  bottom: 0.5rem;
+  width: 100%;
+}
+form input {
+  border: 0;
+  padding-bottom: 1rem;
+  padding-top: 0.5rem;
+  width: 100%;
+}
