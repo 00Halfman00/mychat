@@ -16,12 +16,14 @@
   </div>
     <ul></ul>
     <form>
-      <input />
+      <input/>
     </form>
     <script>
       const ul = document.querySelector('ul');
       const form = document.querySelector('form');
       const input = document.querySelector('input');
+      const h1 = document.querySelector('h1');
+
       //replace http protocol with websocket protocol
       const socket = new WebSocket(
         window.location.origin.replace('http', 'ws')
@@ -33,26 +35,43 @@
         const mess = { text: input.value };
         //this step requires json body parsing middleware in server file
         const { data } = await axios.post('/api/chat', mess);
-        // console.log('data ', data) //this shows the return value of line 13 with and id property and value
-        // console.log( mess ) this returns the value of line 30
+
+         console.log('data ', data) //this shows the return text property and value and id property and value
+        // console.log( mess )
         // data will not appear unless you JSON.stringify
-        socket.send(JSON.stringify(data)); //socket referes to line 23
+        socket.send(JSON.stringify(data));
         input.value = '';
       });
 
       ////////////////attach event listener of message type to socket which will receive messages from server
       socket.addEventListener('message', (e) => {
         try {
+          console.log('e ', e)
+          
           const m = JSON.parse(e.data);
           //this console.log shows up in client
           console.log('in index.html listening for messages on socket', m);
-          ul.innerHTML += `<li>${m.text}</li>`;
+          ul.innerHTML += `<li>${e.origin}: ${m.text}</li>`;
         } catch (err) {
           console.log(err);
         }
-
         //console.log('e in .html', e.data)
       });
+
+      const retrieve = async() => {
+        try{
+          const { data } = await axios.get('/api/chat');
+          console.log('html axios', data);
+          data.forEach( m => ul.innerHTML += `<li>${m.text}</li>`);
+          
+        } catch(err){
+          console.log(err)
+        }
+      }
+
+      retrieve()
+
+
     </script>
   </body>
 </html>

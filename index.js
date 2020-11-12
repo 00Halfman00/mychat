@@ -14,16 +14,27 @@ app.get('/', (req, res, next) => {
     res.sendFile(__dirname + '/index.html')
 })
 
-//route handler for post
+//route handler for post request
+const messArray = [];
 app.post('/api/chat', (req, res, next) => {
- 
   try{
-    
-    
     const mess = { ...req.body, id: Math.round(Math.random() * 1000) };
+    messArray.push(mess)
+    console.log('messArr', messArray)
     res.send(mess);
   } catch(err) {
     next(err)
+  }
+});
+
+//route handler for get request
+app.get('/api/chat', (req, res, next) => {
+  try{
+    //const messages = {...messArray};
+    //console.log('hi ', messages)
+    res.send(messArray)
+  } catch(err){
+    console.log(err)
   }
 })
 
@@ -37,18 +48,22 @@ const server = app.listen( PORT, () => {
 const socketServer = new ws.Server( { server } );
 
 let socketsArr = [];
-  socketServer.on('connection', socket => {
+  socketServer.on('connection', (socket, req )=> {
+    const ip = req.socket.remoteAddress;
+    console.log('ip ', ip)
+    socket.ip = ip;
     socketsArr.push(socket);
+    
     //send message to client on browser
     //socket.send('what it is?') this appears in browser
     //console.log('connected on socket') this appeats in terminal
 
     //listening for 'message' on socket
     socket.on( 'message', e => {
-      //console.log('listening on server: ', e)
+      console.log('listening on server: ', e)
       // e is received as a string
 
-      //send in socket all sockets in soketArr of line 34
+      //send in socket all sockets in soketArr 
       socketsArr.forEach( s => s.send(e)) 
     })
   })
