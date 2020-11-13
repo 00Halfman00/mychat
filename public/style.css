@@ -9,16 +9,16 @@ h1 {
 }
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  background-color:whitesmoke;
-  padding: 0;
-  color: royalblue;
+  background-color: whitesmoke;
+  padding: 0.35rem;
+  color: dodgerblue;
+  font-weight: bold;
 }
 ul {
   width: 100%;
 
   padding-left: 0.5rem;
   padding-bottom: 3rem;
-
 }
 li {
   list-style: none;
@@ -27,14 +27,45 @@ li {
 }
 
 form {
-  background: #000;
-  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
   bottom: 0.5rem;
   width: 100%;
 }
 form input {
   border: 0;
-  
   padding-top: 0.5rem;
   width: 100%;
+}
+
+textarea {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+input {
+  padding-bottom: 0.5rem;
+}
+
+button {
+  width: 50%;
+  margin-top: 1rem;
+  padding: 0.3rem;
+  background-color: goldenrod;
+  text-emphasis: center;
+}
+
+label {
+  margin-top: 1rem;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+label {
+  color: black;
 }

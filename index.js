@@ -25,7 +25,7 @@ app.post('/api/chat', (req, res, next) => {
   try{
     const mess = { ...req.body, id: Math.round(Math.random() * 1000) };
     messArray.push(mess)
-    console.log('messArr', messArray)
+    //console.log('messArr', messArray)
     res.send(mess);
   } catch(err) {
     next(err)
@@ -36,7 +36,7 @@ app.post('/api/chat', (req, res, next) => {
 app.get('/api/chat', (req, res, next) => {
   try{
     //const messages = {...messArray};
-    //console.log('hi ', messages)
+    //console.log('hi ', messArray)
     res.send(messArray)
   } catch(err){
     console.log(err)
@@ -54,9 +54,9 @@ const socketServer = new ws.Server( { server } );
 
 let socketsArr = [];
   socketServer.on('connection', (socket, req )=> {
-    const ip = req.socket.remoteAddress;
-    console.log('ip ', ip)
-    socket.ip = ip;
+    // const ip = req.socket.remoteAddress;
+    // console.log('ip ', socket)
+    // socket.ip = ip;
     socketsArr.push(socket);
     
     //send message to client on browser
@@ -65,7 +65,7 @@ let socketsArr = [];
 
     //listening for 'message' on socket
     socket.on( 'message', e => {
-      console.log('listening on server: ', e)
+      //console.log('listening on server: ', e)
       // e is received as a string
 
       //send in socket all sockets in soketArr 

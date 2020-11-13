@@ -11,18 +11,31 @@
     ></script>
   </head>
   <body>
-    <div class='heading'>
-    <h1>Chat Room</h1>
-  </div>
-    <ul></ul>
-    <form>
-      <input/>
-    </form>
+    <div class="heading">
+      <h1>Chat Room</h1>
+    </div>
+    <main>
+      <ul></ul>
+      <form>
+        <label
+          >Name:
+          <input id="input-name" type="text" />
+        </label>
+        <label
+          >Text:
+          <!-- <input id="input-text" type="text" /> -->
+          <textarea id="input-text" rows="5"></textarea>
+        </label>
+        <button>Submit</button>
+      </form>
+    </main>
     <script>
       const ul = document.querySelector('ul');
       const form = document.querySelector('form');
-      const input = document.querySelector('input');
+      const inputName = document.getElementById('input-name');
+      const inputText = document.getElementById('input-text');
       const h1 = document.querySelector('h1');
+      const bttn = document.querySelector('button');
 
       //replace http protocol with websocket protocol
       const socket = new WebSocket(
@@ -30,61 +43,53 @@
       );
 
       /////////////////attach an event listener of sumbmit type to form
-      form.addEventListener('submit', async (e) => {
+      bttn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const mess = { text: input.value };
+        // console.log(inputName.value)
+        // console.log(inputText.value)
+        const mess = { name: inputName.value, text: inputText.value };
+
         //this step requires json body parsing middleware in server file
         const { data } = await axios.post('/api/chat', mess);
 
-         console.log('data ', data) //this shows the return text property and value and id property and value
+        //console.log('data ', data); //this shows the return text property and value and id property and value
         // console.log( mess )
         // data will not appear unless you JSON.stringify
         socket.send(JSON.stringify(data));
-        input.value = '';
+        inputText.value = '';
       });
 
       ////////////////attach event listener of message type to socket which will receive messages from server
       socket.addEventListener('message', (e) => {
         try {
-          console.log('e ', e)
-          
+          //console.log('e ', e);
           const m = JSON.parse(e.data);
           //this console.log shows up in client
+          console.log(e.data);
           console.log('in index.html listening for messages on socket', m);
-          ul.innerHTML += `<li>${e.origin}: ${m.text}</li>`;
+          ul.innerHTML += `<li>${m.name}: ${m.text}</li>`;
         } catch (err) {
           console.log(err);
         }
         //console.log('e in .html', e.data)
       });
 
-      const retrieve = async() => {
-        try{
+      const retrieve = async () => {
+        try {
           const { data } = await axios.get('/api/chat');
-          console.log('html axios', data);
-          data.forEach( m => ul.innerHTML += `<li>${m.text}</li>`);
-          
-        } catch(err){
-          console.log(err)
+          //console.log('html axios', data);
+          data.forEach(
+            (m) => (ul.innerHTML += `<li>${m.name}: ${m.text}</li>`)
+          );
+        } catch (err) {
+          console.log(err);
         }
-      }
-
-      retrieve()
-
+      };
+      retrieve();
 
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 
