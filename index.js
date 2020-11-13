@@ -4,6 +4,7 @@ const app = express();
 const ws = require('ws');
 const PORT = process.env.PORT || 9000;
 
+
 //body parser middleware
 app.use(express.json());
 
@@ -11,7 +12,11 @@ app.use(express.static(__dirname + '/public'))
 
 //route handler will send index.html
 app.get('/', (req, res, next) => {
-    res.sendFile(__dirname + '/index.html')
+  try{
+    res.sendFile(__dirname + '/index.html');
+  } catch(err){
+    next(err)
+  }
 })
 
 //route handler for post request

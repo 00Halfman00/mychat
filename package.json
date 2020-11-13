@@ -4,7 +4,8 @@
   "description": "chat",
   "main": "index.js",
   "scripts": {
-    "start-dev": "nodemon server"
+    "start-dev": "nodemon server",
+    "start": "node server"
   },
   "keywords": [],
   "author": "",
